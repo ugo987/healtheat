@@ -7,6 +7,7 @@ import ProgressBar from '@/components/ui/ProgressBar'
 import Button from '@/components/ui/Button'
 import Badge from '@/components/ui/Badge'
 import type { MacroSummary } from '@/types'
+import { Sunrise, Sun, Moon, Apple, UtensilsCrossed, Utensils, ClipboardList, User, Beef, Wheat, Droplets, type LucideIcon } from 'lucide-react'
 
 interface Props {
   userName: string
@@ -16,10 +17,17 @@ interface Props {
 }
 
 const MEAL_LABELS: Record<string, string> = {
-  BREAKFAST: '🌅 Petit-déjeuner',
-  LUNCH: '☀️ Déjeuner',
-  DINNER: '🌙 Dîner',
-  SNACK: '🍎 Collation',
+  BREAKFAST: 'Petit-déjeuner',
+  LUNCH: 'Déjeuner',
+  DINNER: 'Dîner',
+  SNACK: 'Collation',
+}
+
+const MEAL_ICONS: Record<string, LucideIcon> = {
+  BREAKFAST: Sunrise,
+  LUNCH: Sun,
+  DINNER: Moon,
+  SNACK: Apple,
 }
 
 const GOAL_LABELS: Record<string, string> = {
@@ -44,7 +52,7 @@ export default function DashboardClient({ userName, profile, todayLogs, macros }
     <div className="p-6 md:p-8">
       <div className="mb-8">
         <h1 className="font-poppins text-2xl font-bold text-brand-black">
-          {greeting}, {userName.split(' ')[0]} 👋
+          {greeting}, {userName.split(' ')[0]}
         </h1>
         <p className="mt-1 text-gray-500">
           {new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}
@@ -66,7 +74,7 @@ export default function DashboardClient({ userName, profile, todayLogs, macros }
           <Badge variant={caloriePercent > 100 ? 'orange' : 'green'} className="mt-3">
             {macros.targetCalories - Math.round(macros.calories) > 0
               ? `${macros.targetCalories - Math.round(macros.calories)} kcal restantes`
-              : 'Objectif atteint 🎉'}
+              : 'Objectif atteint'}
           </Badge>
         </Card>
 
@@ -75,21 +83,21 @@ export default function DashboardClient({ userName, profile, todayLogs, macros }
           <div className="space-y-5">
             <div>
               <div className="flex justify-between text-sm mb-1">
-                <span className="font-medium">🥩 Protéines</span>
+                <span className="flex items-center gap-1.5 font-medium"><Beef size={14} className="text-brand-green" /> Protéines</span>
                 <span className="text-gray-500">{Math.round(macros.protein)}g / {proteinTarget}g</span>
               </div>
               <ProgressBar value={macros.protein} max={proteinTarget} color="green" />
             </div>
             <div>
               <div className="flex justify-between text-sm mb-1">
-                <span className="font-medium">🍞 Glucides</span>
+                <span className="flex items-center gap-1.5 font-medium"><Wheat size={14} className="text-blue-400" /> Glucides</span>
                 <span className="text-gray-500">{Math.round(macros.carbs)}g / {carbsTarget}g</span>
               </div>
               <ProgressBar value={macros.carbs} max={carbsTarget} color="blue" />
             </div>
             <div>
               <div className="flex justify-between text-sm mb-1">
-                <span className="font-medium">🫒 Lipides</span>
+                <span className="flex items-center gap-1.5 font-medium"><Droplets size={14} className="text-orange-400" /> Lipides</span>
                 <span className="text-gray-500">{Math.round(macros.fat)}g / {fatTarget}g</span>
               </div>
               <ProgressBar value={macros.fat} max={fatTarget} color="orange" />
@@ -116,21 +124,25 @@ export default function DashboardClient({ userName, profile, todayLogs, macros }
           </div>
           {todayLogs.length === 0 ? (
             <div className="text-center py-8">
-              <p className="text-4xl">🍽️</p>
+              <UtensilsCrossed size={40} className="mx-auto text-gray-200" />
               <p className="mt-2 text-gray-500 text-sm">Aucun repas enregistré aujourd'hui.</p>
               <Button href="/tracking" size="sm" className="mt-3">Logger mon premier repas</Button>
             </div>
           ) : (
             <div className="space-y-3">
-              {todayLogs.map(log => (
+              {todayLogs.map(log => {
+                const MealIcon = MEAL_ICONS[log.mealType] || UtensilsCrossed
+                return (
                 <div key={log.id} className="flex items-center justify-between rounded-xl bg-gray-50 px-4 py-3">
-                  <div>
+                  <div className="flex items-center gap-2">
+                    <MealIcon size={15} className="text-brand-green" />
                     <p className="text-sm font-medium">{MEAL_LABELS[log.mealType] || log.mealType}</p>
                     <p className="text-xs text-gray-500">{(log.foods as any[]).length} aliment(s)</p>
                   </div>
                   <Badge variant="green">{Math.round(log.totalCalories)} kcal</Badge>
                 </div>
-              ))}
+              )})}
+
             </div>
           )}
         </Card>
@@ -139,21 +151,21 @@ export default function DashboardClient({ userName, profile, todayLogs, macros }
           <p className="font-poppins font-semibold text-brand-black mb-4">Actions rapides</p>
           <div className="space-y-3">
             <Link href="/program" className="flex items-center gap-4 rounded-xl border border-gray-100 p-4 hover:border-brand-green hover:bg-brand-green/5 transition-colors">
-              <span className="text-2xl">🥗</span>
+              <Utensils size={22} className="text-brand-green shrink-0" />
               <div>
                 <p className="font-medium text-brand-black">Voir mon programme</p>
                 <p className="text-xs text-gray-500">Plan nutritionnel de la semaine</p>
               </div>
             </Link>
             <Link href="/tracking" className="flex items-center gap-4 rounded-xl border border-gray-100 p-4 hover:border-brand-green hover:bg-brand-green/5 transition-colors">
-              <span className="text-2xl">📋</span>
+              <ClipboardList size={22} className="text-brand-green shrink-0" />
               <div>
                 <p className="font-medium text-brand-black">Logger un repas</p>
                 <p className="text-xs text-gray-500">Rechercher et ajouter des aliments</p>
               </div>
             </Link>
             <Link href="/profile" className="flex items-center gap-4 rounded-xl border border-gray-100 p-4 hover:border-brand-green hover:bg-brand-green/5 transition-colors">
-              <span className="text-2xl">👤</span>
+              <User size={22} className="text-brand-green shrink-0" />
               <div>
                 <p className="font-medium text-brand-black">Mon profil</p>
                 <p className="text-xs text-gray-500">Mettre à jour mes informations</p>

@@ -1,19 +1,21 @@
-const steps = [
+import { UserCircle, Brain, TrendingUp, type LucideIcon } from 'lucide-react'
+
+const steps: { number: string; icon: LucideIcon; title: string; description: string }[] = [
   {
     number: '01',
-    icon: '👤',
+    icon: UserCircle,
     title: 'Créez votre profil',
     description: 'Renseignez vos objectifs, vos préférences alimentaires, vos intolérances et votre niveau d\'activité en 2 minutes.',
   },
   {
     number: '02',
-    icon: '🤖',
+    icon: Brain,
     title: 'L\'IA génère votre plan',
     description: 'Notre intelligence artificielle analyse vos données et crée un programme nutritionnel sur-mesure pour la semaine.',
   },
   {
     number: '03',
-    icon: '📈',
+    icon: TrendingUp,
     title: 'Suivez vos progrès',
     description: 'Enregistrez vos repas, visualisez vos macros et laissez l\'IA ajuster votre plan en fonction de votre progression.',
   },
@@ -34,21 +36,24 @@ export default function HowItWorksSection() {
         </div>
 
         <div className="mt-16 grid gap-8 md:grid-cols-3">
-          {steps.map((step, i) => (
-            <div key={step.number} className="relative text-center">
-              {i < steps.length - 1 && (
-                <div className="absolute left-1/2 top-12 hidden h-0.5 w-full translate-x-1/2 bg-brand-green/20 md:block" />
-              )}
-              <div className="relative mx-auto flex h-24 w-24 items-center justify-center rounded-2xl bg-brand-green shadow-lg">
-                <span className="text-4xl">{step.icon}</span>
-                <span className="absolute -right-2 -top-2 flex h-7 w-7 items-center justify-center rounded-full bg-brand-black font-poppins text-xs font-bold text-brand-white">
-                  {step.number}
-                </span>
+          {steps.map((step, i) => {
+            const Icon = step.icon
+            return (
+              <div key={step.number} className="relative text-center">
+                {i < steps.length - 1 && (
+                  <div className="absolute left-1/2 top-12 hidden h-0.5 w-full translate-x-1/2 bg-brand-green/20 md:block" />
+                )}
+                <div className="relative mx-auto flex h-24 w-24 items-center justify-center rounded-2xl bg-brand-green shadow-lg">
+                  <Icon size={40} className="text-brand-white" />
+                  <span className="absolute -right-2 -top-2 flex h-7 w-7 items-center justify-center rounded-full bg-brand-black font-poppins text-xs font-bold text-brand-white">
+                    {step.number}
+                  </span>
+                </div>
+                <h3 className="mt-6 font-poppins text-xl font-semibold text-brand-black">{step.title}</h3>
+                <p className="mt-3 text-gray-600 leading-relaxed">{step.description}</p>
               </div>
-              <h3 className="mt-6 font-poppins text-xl font-semibold text-brand-black">{step.title}</h3>
-              <p className="mt-3 text-gray-600 leading-relaxed">{step.description}</p>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </div>
     </section>

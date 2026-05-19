@@ -4,21 +4,22 @@ import { useState } from 'react'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import Badge from '@/components/ui/Badge'
+import { Check } from 'lucide-react'
 
 const GOAL_LABELS: Record<string, string> = {
-  LOSE_WEIGHT: '⬇️ Perte de poids',
-  MAINTAIN: '⚖️ Maintien',
-  GAIN_MUSCLE: '💪 Prise de muscle',
-  EAT_HEALTHIER: '🥗 Mieux manger',
+  LOSE_WEIGHT: 'Perte de poids',
+  MAINTAIN: 'Maintien',
+  GAIN_MUSCLE: 'Prise de muscle',
+  EAT_HEALTHIER: 'Mieux manger',
 }
 
 const DIET_LABELS: Record<string, string> = {
-  OMNIVORE: '🍖 Omnivore',
-  VEGETARIAN: '🥦 Végétarien',
-  VEGAN: '🌱 Vegan',
-  PESCATARIAN: '🐟 Pescétarien',
-  KETO: '🥑 Keto',
-  PALEO: '🥩 Paléo',
+  OMNIVORE: 'Omnivore',
+  VEGETARIAN: 'Végétarien',
+  VEGAN: 'Vegan',
+  PESCATARIAN: 'Pescétarien',
+  KETO: 'Keto',
+  PALEO: 'Paléo',
 }
 
 const ACTIVITY_LABELS: Record<string, string> = {
@@ -120,7 +121,7 @@ export default function ProfileClient({ user, profile }: Props) {
               </div>
             ))}
             <Button onClick={save} isLoading={isSaving} variant={saved ? 'secondary' : 'primary'} className="w-full justify-center">
-              {saved ? '✓ Sauvegardé !' : 'Sauvegarder'}
+              {saved ? <><Check size={14} className="mr-1 inline" />Sauvegardé</> : 'Sauvegarder'}
             </Button>
           </div>
         </Card>

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { Heart } from 'lucide-react'
 
 const links = {
   Produit: [
@@ -49,7 +50,7 @@ export default function Footer() {
             © {new Date().getFullYear()} HealthEat. Tous droits réservés.
           </p>
           <p className="text-sm text-brand-white/50">
-            Fait avec ❤️ par l'équipe HealthEat
+            Fait avec <Heart size={13} className="inline text-red-400 mx-0.5" /> par l'équipe HealthEat
           </p>
         </div>
       </div>

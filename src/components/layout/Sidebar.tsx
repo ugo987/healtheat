@@ -3,12 +3,13 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { signOut, useSession } from 'next-auth/react'
+import { LayoutDashboard, Utensils, ClipboardList, User, LogOut, type LucideIcon } from 'lucide-react'
 
-const navItems = [
-  { href: '/dashboard', label: 'Dashboard', icon: '📊' },
-  { href: '/program', label: 'Mon programme', icon: '🥗' },
-  { href: '/tracking', label: 'Suivi repas', icon: '📋' },
-  { href: '/profile', label: 'Mon profil', icon: '👤' },
+const navItems: { href: string; label: string; icon: LucideIcon }[] = [
+  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/program', label: 'Mon programme', icon: Utensils },
+  { href: '/tracking', label: 'Suivi repas', icon: ClipboardList },
+  { href: '/profile', label: 'Mon profil', icon: User },
 ]
 
 export default function Sidebar() {
@@ -25,6 +26,7 @@ export default function Sidebar() {
       <nav className="flex-1 space-y-1 p-4">
         {navItems.map(item => {
           const isActive = pathname === item.href
+          const Icon = item.icon
           return (
             <Link
               key={item.href}
@@ -35,7 +37,7 @@ export default function Sidebar() {
                   : 'text-brand-white/70 hover:bg-brand-white/10 hover:text-brand-white'
               }`}
             >
-              <span className="text-lg">{item.icon}</span>
+              <Icon size={18} />
               {item.label}
             </Link>
           )
@@ -56,9 +58,10 @@ export default function Sidebar() {
         )}
         <button
           onClick={() => signOut({ callbackUrl: '/' })}
-          className="w-full rounded-xl px-4 py-2.5 text-left text-sm text-brand-white/60 transition-colors hover:bg-brand-white/10 hover:text-brand-white"
+          className="flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-left text-sm text-brand-white/60 transition-colors hover:bg-brand-white/10 hover:text-brand-white"
         >
-          🚪 Déconnexion
+          <LogOut size={16} />
+          Déconnexion
         </button>
       </div>
     </aside>

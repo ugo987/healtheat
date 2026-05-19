@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import Badge from '@/components/ui/Badge'
+import { Sunrise, Sun, Moon, Apple, Utensils, Sparkles, RefreshCw, Lightbulb, Beef, Wheat, Droplets, type LucideIcon } from 'lucide-react'
 
 const DAYS_FR: Record<string, string> = {
   monday: 'Lundi',
@@ -15,11 +16,11 @@ const DAYS_FR: Record<string, string> = {
   sunday: 'Dimanche',
 }
 
-const MEAL_ICONS: Record<string, string> = {
-  breakfast: '🌅',
-  lunch: '☀️',
-  dinner: '🌙',
-  snack: '🍎',
+const MEAL_ICONS: Record<string, LucideIcon> = {
+  breakfast: Sunrise,
+  lunch: Sun,
+  dinner: Moon,
+  snack: Apple,
 }
 
 const MEAL_LABELS: Record<string, string> = {
@@ -54,13 +55,13 @@ export default function ProgramClient({ plan }: { plan: any }) {
   if (!currentPlan) {
     return (
       <div className="flex min-h-[60vh] flex-col items-center justify-center p-8 text-center">
-        <div className="text-6xl mb-4">🥗</div>
+        <Utensils size={52} className="mb-4 text-brand-green/30" />
         <h1 className="font-poppins text-2xl font-bold text-brand-black">Votre programme n'est pas encore généré</h1>
         <p className="mt-3 text-gray-500 max-w-md">
           Notre IA va créer un plan nutritionnel personnalisé pour la semaine, adapté à votre profil et vos objectifs.
         </p>
         <Button onClick={generatePlan} isLoading={isGenerating} size="lg" className="mt-6">
-          {isGenerating ? 'Génération en cours...' : '✨ Générer mon programme IA'}
+          {isGenerating ? 'Génération en cours...' : <><Sparkles size={16} className="mr-1.5 inline" />Générer mon programme IA</>}
         </Button>
         <p className="mt-3 text-xs text-gray-400">Prend environ 5-10 secondes</p>
       </div>
@@ -78,13 +79,13 @@ export default function ProgramClient({ plan }: { plan: any }) {
           <p className="mt-1 text-gray-500">Semaine du {new Date(currentPlan.weekStartDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })}</p>
         </div>
         <Button onClick={generatePlan} isLoading={isGenerating} variant="secondary" size="sm">
-          🔄 Regénérer
+          <RefreshCw size={14} className="mr-1.5 inline" />Regénérer
         </Button>
       </div>
 
       {planData?.weeklyNotes && (
         <div className="mb-6 rounded-2xl bg-brand-green/5 border border-brand-green/20 p-4">
-          <p className="text-sm text-brand-green font-medium">💡 Note de votre nutritionniste IA</p>
+          <p className="flex items-center gap-1.5 text-sm text-brand-green font-medium"><Lightbulb size={14} />Note de votre nutritionniste IA</p>
           <p className="mt-1 text-sm text-gray-700">{planData.weeklyNotes}</p>
         </div>
       )}
@@ -114,7 +115,7 @@ export default function ProgramClient({ plan }: { plan: any }) {
             <Card key={mealKey} hover>
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
-                  <span className="text-xl">{MEAL_ICONS[mealKey]}</span>
+                  {(() => { const Icon = MEAL_ICONS[mealKey] || Utensils; return <Icon size={18} className="text-brand-green" /> })()}
                   <p className="font-poppins font-semibold text-brand-black">{MEAL_LABELS[mealKey]}</p>
                 </div>
                 <Badge variant="green">{Math.round(meal.calories)} kcal</Badge>
@@ -124,9 +125,9 @@ export default function ProgramClient({ plan }: { plan: any }) {
                 <p className="mt-2 text-xs text-gray-500 leading-relaxed">{meal.recipe}</p>
               )}
               <div className="mt-3 flex gap-3 text-xs text-gray-400">
-                <span>🥩 {Math.round(meal.protein)}g prot.</span>
-                <span>🍞 {Math.round(meal.carbs)}g gluc.</span>
-                <span>🫒 {Math.round(meal.fat)}g lip.</span>
+                <span className="flex items-center gap-1"><Beef size={11} />{Math.round(meal.protein)}g prot.</span>
+                <span className="flex items-center gap-1"><Wheat size={11} />{Math.round(meal.carbs)}g gluc.</span>
+                <span className="flex items-center gap-1"><Droplets size={11} />{Math.round(meal.fat)}g lip.</span>
               </div>
             </Card>
           ))}

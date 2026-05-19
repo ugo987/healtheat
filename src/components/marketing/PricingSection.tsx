@@ -1,5 +1,6 @@
 import Button from '@/components/ui/Button'
 import Card from '@/components/ui/Card'
+import { Check, X } from 'lucide-react'
 
 const plans = [
   {
@@ -74,13 +75,13 @@ export default function PricingSection() {
               <ul className="mt-6 space-y-3">
                 {plan.features.map(f => (
                   <li key={f} className="flex items-start gap-2 text-sm text-gray-700">
-                    <span className="mt-0.5 text-brand-green">✓</span>
+                    <Check size={15} className="mt-0.5 shrink-0 text-brand-green" />
                     {f}
                   </li>
                 ))}
                 {plan.missing.map(f => (
                   <li key={f} className="flex items-start gap-2 text-sm text-gray-400">
-                    <span className="mt-0.5">✗</span>
+                    <X size={15} className="mt-0.5 shrink-0 text-gray-300" />
                     {f}
                   </li>
                 ))}

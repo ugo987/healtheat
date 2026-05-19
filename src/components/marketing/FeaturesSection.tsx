@@ -1,33 +1,34 @@
 import Card from '@/components/ui/Card'
+import { Dna, Zap, BarChart2, Apple, Target, ShieldCheck, type LucideIcon } from 'lucide-react'
 
-const features = [
+const features: { icon: LucideIcon; title: string; description: string }[] = [
   {
-    icon: '🧬',
+    icon: Dna,
     title: 'Personnalisation ultra-précise',
     description: 'L\'IA analyse vos objectifs, régime, allergies, et niveau d\'activité pour créer un plan unique. Plus elle vous connaît, plus elle est précise.',
   },
   {
-    icon: '⚡',
+    icon: Zap,
     title: 'Génération en temps réel',
     description: 'Votre programme nutritionnel hebdomadaire est généré en quelques secondes, avec des recettes adaptées à la cuisine française.',
   },
   {
-    icon: '📊',
+    icon: BarChart2,
     title: 'Suivi des macros',
     description: 'Visualisez vos calories, protéines, glucides et lipides au quotidien. Des graphiques clairs pour comprendre votre alimentation.',
   },
   {
-    icon: '🍎',
+    icon: Apple,
     title: 'Base de données alimentaire',
     description: 'Accès à des milliers d\'aliments pour logger vos repas avec précision, via la recherche intelligente Edamam.',
   },
   {
-    icon: '🎯',
+    icon: Target,
     title: 'Objectifs adaptatifs',
     description: 'Que vous visiez la perte de poids, la prise de muscle ou simplement manger mieux, le programme s\'adapte à votre progression.',
   },
   {
-    icon: '🔒',
+    icon: ShieldCheck,
     title: 'Données 100% sécurisées',
     description: 'Vos données de santé sont chiffrées et protégées conformément au RGPD. Nous ne vendons jamais vos informations.',
   },
@@ -48,15 +49,18 @@ export default function FeaturesSection() {
         </div>
 
         <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {features.map(feature => (
-            <Card key={feature.title} hover>
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-green/10 text-2xl">
-                {feature.icon}
-              </div>
-              <h3 className="mt-4 font-poppins text-lg font-semibold text-brand-black">{feature.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-gray-600">{feature.description}</p>
-            </Card>
-          ))}
+          {features.map(feature => {
+            const Icon = feature.icon
+            return (
+              <Card key={feature.title} hover>
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-green/10">
+                  <Icon size={22} className="text-brand-green" />
+                </div>
+                <h3 className="mt-4 font-poppins text-lg font-semibold text-brand-black">{feature.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-gray-600">{feature.description}</p>
+              </Card>
+            )
+          })}
         </div>
       </div>
     </section>
