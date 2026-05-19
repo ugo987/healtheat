@@ -12,8 +12,8 @@ type MealType = 'BREAKFAST' | 'LUNCH' | 'DINNER' | 'SNACK'
 const MEAL_OPTIONS: { value: MealType; label: string; icon: LucideIcon }[] = [
   { value: 'BREAKFAST', label: 'Petit-déjeuner', icon: Sunrise },
   { value: 'LUNCH', label: 'Déjeuner', icon: Sun },
-  { value: 'DINNER', label: 'Dîner', icon: Moon },
   { value: 'SNACK', label: 'Collation', icon: Apple },
+  { value: 'DINNER', label: 'Dîner', icon: Moon },
 ]
 
 export default function TrackingClient() {
