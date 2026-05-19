@@ -23,6 +23,8 @@ const MEAL_ICONS: Record<string, LucideIcon> = {
   snack: Apple,
 }
 
+const MEAL_ORDER = ['breakfast', 'lunch', 'snack', 'dinner']
+
 const MEAL_LABELS: Record<string, string> = {
   breakfast: 'Petit-déjeuner',
   lunch: 'Déjeuner',
@@ -111,7 +113,7 @@ export default function ProgramClient({ plan }: { plan: any }) {
 
       {selectedMeals ? (
         <div className="grid gap-4 sm:grid-cols-2">
-          {Object.entries(selectedMeals).map(([mealKey, meal]: [string, any]) => (
+          {Object.entries(selectedMeals).sort(([a], [b]) => MEAL_ORDER.indexOf(a) - MEAL_ORDER.indexOf(b)).map(([mealKey, meal]: [string, any]) => (
             <Card key={mealKey} hover>
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
