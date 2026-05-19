@@ -2,19 +2,20 @@ import type { Metadata } from 'next'
 import FeaturesSection from '@/components/marketing/FeaturesSection'
 import CTASection from '@/components/marketing/CTASection'
 import Card from '@/components/ui/Card'
+import { RefreshCw, Watch, Microscope, Gamepad2, Users, Smartphone, type LucideIcon } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Fonctionnalités — HealthEat',
   description: 'Découvrez toutes les fonctionnalités de HealthEat : IA nutritionnelle, suivi des macros, recettes personnalisées.',
 }
 
-const advanced = [
-  { icon: '🔄', title: 'Machine Learning adaptatif', description: 'L\'IA apprend de vos retours et ajuste vos recommandations chaque semaine pour des résultats toujours plus précis.' },
-  { icon: '⌚', title: 'Intégration wearables', description: 'Synchronisation avec Google Fit, Apple Health et vos montres connectées pour un suivi complet activité + nutrition.' },
-  { icon: '🧪', title: 'Analyse nutritionnelle avancée', description: '30+ micronutriments suivis : vitamines, minéraux, oméga-3, fibres. Bien au-delà des simples calories.' },
-  { icon: '🎮', title: 'Gamification', description: 'Streaks, badges et défis hebdomadaires pour rester motivé. La nutrition peut aussi être amusante !' },
-  { icon: '🤝', title: 'Partenariats B2B', description: 'Solutions pour les entreprises et professionnels de santé. Coaching nutritionnel pour vos équipes ou patients.' },
-  { icon: '📱', title: 'Interface mobile-first', description: 'Design optimisé pour le téléphone. Logguez vos repas en 10 secondes, où que vous soyez.' },
+const advanced: { icon: LucideIcon; title: string; description: string }[] = [
+  { icon: RefreshCw, title: 'Machine Learning adaptatif', description: 'L\'IA apprend de vos retours et ajuste vos recommandations chaque semaine pour des résultats toujours plus précis.' },
+  { icon: Watch, title: 'Intégration wearables', description: 'Synchronisation avec Google Fit, Apple Health et vos montres connectées pour un suivi complet activité + nutrition.' },
+  { icon: Microscope, title: 'Analyse nutritionnelle avancée', description: '30+ micronutriments suivis : vitamines, minéraux, oméga-3, fibres. Bien au-delà des simples calories.' },
+  { icon: Gamepad2, title: 'Gamification', description: 'Streaks, badges et défis hebdomadaires pour rester motivé. La nutrition peut aussi être amusante !' },
+  { icon: Users, title: 'Partenariats B2B', description: 'Solutions pour les entreprises et professionnels de santé. Coaching nutritionnel pour vos équipes ou patients.' },
+  { icon: Smartphone, title: 'Interface mobile-first', description: 'Design optimisé pour le téléphone. Logguez vos repas en 10 secondes, où que vous soyez.' },
 ]
 
 export default function FeaturesPage() {
@@ -38,13 +39,18 @@ export default function FeaturesPage() {
         <div className="mx-auto max-w-7xl px-6">
           <h2 className="text-center font-poppins text-3xl font-bold text-brand-black">Fonctionnalités avancées</h2>
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {advanced.map(f => (
-              <Card key={f.title} hover>
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-green/10 text-2xl">{f.icon}</div>
-                <h3 className="mt-4 font-poppins text-lg font-semibold">{f.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-gray-600">{f.description}</p>
-              </Card>
-            ))}
+            {advanced.map(f => {
+              const Icon = f.icon
+              return (
+                <Card key={f.title} hover>
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-green/10">
+                    <Icon size={22} className="text-brand-green" />
+                  </div>
+                  <h3 className="mt-4 font-poppins text-lg font-semibold">{f.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-gray-600">{f.description}</p>
+                </Card>
+              )
+            })}
           </div>
         </div>
       </section>

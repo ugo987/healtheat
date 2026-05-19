@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { Check } from 'lucide-react'
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -17,7 +18,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           <div className="mt-8 space-y-3">
             {['Plan nutritionnel personnalisé par IA', 'Suivi des macros en temps réel', 'Recettes adaptées à vos objectifs'].map(f => (
               <div key={f} className="flex items-center gap-3">
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-white/20 text-brand-white text-xs">✓</span>
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-white/20"><Check size={13} className="text-brand-white" /></span>
                 <span className="text-brand-white/90 text-sm">{f}</span>
               </div>
             ))}

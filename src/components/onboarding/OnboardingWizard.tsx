@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Button from '@/components/ui/Button'
+import { TrendingDown, Scale, Dumbbell, Heart, UtensilsCrossed, Leaf, Sprout, Fish, Flame, Beef, type LucideIcon } from 'lucide-react'
 
 type Goal = 'LOSE_WEIGHT' | 'MAINTAIN' | 'GAIN_MUSCLE' | 'EAT_HEALTHIER'
 type Diet = 'OMNIVORE' | 'VEGETARIAN' | 'VEGAN' | 'PESCATARIAN' | 'KETO' | 'PALEO'
@@ -21,20 +22,20 @@ interface FormData {
 
 const TOTAL_STEPS = 5
 
-const goals: { value: Goal; label: string; emoji: string; desc: string }[] = [
-  { value: 'LOSE_WEIGHT', label: 'Perdre du poids', emoji: '⬇️', desc: 'Déficit calorique adapté, recettes légères' },
-  { value: 'MAINTAIN', label: 'Maintenir mon poids', emoji: '⚖️', desc: 'Alimentation équilibrée et durable' },
-  { value: 'GAIN_MUSCLE', label: 'Prendre du muscle', emoji: '💪', desc: 'Surplus protéique, calories adaptées' },
-  { value: 'EAT_HEALTHIER', label: 'Mieux manger', emoji: '🥗', desc: 'Nutrition équilibrée au quotidien' },
+const goals: { value: Goal; label: string; icon: LucideIcon; desc: string }[] = [
+  { value: 'LOSE_WEIGHT', label: 'Perdre du poids', icon: TrendingDown, desc: 'Déficit calorique adapté, recettes légères' },
+  { value: 'MAINTAIN', label: 'Maintenir mon poids', icon: Scale, desc: 'Alimentation équilibrée et durable' },
+  { value: 'GAIN_MUSCLE', label: 'Prendre du muscle', icon: Dumbbell, desc: 'Surplus protéique, calories adaptées' },
+  { value: 'EAT_HEALTHIER', label: 'Mieux manger', icon: Heart, desc: 'Nutrition équilibrée au quotidien' },
 ]
 
-const diets: { value: Diet; label: string; emoji: string }[] = [
-  { value: 'OMNIVORE', label: 'Omnivore', emoji: '🍖' },
-  { value: 'VEGETARIAN', label: 'Végétarien', emoji: '🥦' },
-  { value: 'VEGAN', label: 'Vegan', emoji: '🌱' },
-  { value: 'PESCATARIAN', label: 'Pescétarien', emoji: '🐟' },
-  { value: 'KETO', label: 'Keto', emoji: '🥑' },
-  { value: 'PALEO', label: 'Paléo', emoji: '🥩' },
+const diets: { value: Diet; label: string; icon: LucideIcon }[] = [
+  { value: 'OMNIVORE', label: 'Omnivore', icon: UtensilsCrossed },
+  { value: 'VEGETARIAN', label: 'Végétarien', icon: Leaf },
+  { value: 'VEGAN', label: 'Vegan', icon: Sprout },
+  { value: 'PESCATARIAN', label: 'Pescétarien', icon: Fish },
+  { value: 'KETO', label: 'Keto', icon: Flame },
+  { value: 'PALEO', label: 'Paléo', icon: Beef },
 ]
 
 const commonAllergies = ['Gluten', 'Lactose', 'Fruits à coques', 'Œufs', 'Soja', 'Sésame', 'Arachides', 'Poisson', 'Crustacés']
@@ -97,19 +98,22 @@ export default function OnboardingWizard() {
           <h1 className="font-poppins text-2xl font-bold text-brand-black">Quel est votre objectif ?</h1>
           <p className="mt-2 text-gray-500">L'IA adaptera votre programme en conséquence.</p>
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
-            {goals.map(g => (
-              <button
-                key={g.value}
-                onClick={() => { update({ goal: g.value }); next() }}
-                className={`rounded-2xl border-2 p-4 text-left transition-all hover:border-brand-green ${
-                  data.goal === g.value ? 'border-brand-green bg-brand-green/5' : 'border-gray-200'
-                }`}
-              >
-                <span className="text-2xl">{g.emoji}</span>
-                <p className="mt-2 font-poppins font-semibold text-brand-black">{g.label}</p>
-                <p className="text-xs text-gray-500 mt-1">{g.desc}</p>
-              </button>
-            ))}
+            {goals.map(g => {
+              const Icon = g.icon
+              return (
+                <button
+                  key={g.value}
+                  onClick={() => { update({ goal: g.value }); next() }}
+                  className={`rounded-2xl border-2 p-4 text-left transition-all hover:border-brand-green ${
+                    data.goal === g.value ? 'border-brand-green bg-brand-green/5' : 'border-gray-200'
+                  }`}
+                >
+                  <Icon size={24} className="text-brand-green" />
+                  <p className="mt-2 font-poppins font-semibold text-brand-black">{g.label}</p>
+                  <p className="text-xs text-gray-500 mt-1">{g.desc}</p>
+                </button>
+              )
+            })}
           </div>
         </div>
       )}
@@ -119,18 +123,21 @@ export default function OnboardingWizard() {
           <h1 className="font-poppins text-2xl font-bold text-brand-black">Votre type de régime</h1>
           <p className="mt-2 text-gray-500">Pour des recettes 100% adaptées à vos habitudes.</p>
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
-            {diets.map(d => (
-              <button
-                key={d.value}
-                onClick={() => update({ dietType: d.value })}
-                className={`flex items-center gap-3 rounded-2xl border-2 p-4 transition-all hover:border-brand-green ${
-                  data.dietType === d.value ? 'border-brand-green bg-brand-green/5' : 'border-gray-200'
-                }`}
-              >
-                <span className="text-2xl">{d.emoji}</span>
-                <p className="font-poppins font-semibold text-brand-black">{d.label}</p>
-              </button>
-            ))}
+            {diets.map(d => {
+              const Icon = d.icon
+              return (
+                <button
+                  key={d.value}
+                  onClick={() => update({ dietType: d.value })}
+                  className={`flex items-center gap-3 rounded-2xl border-2 p-4 transition-all hover:border-brand-green ${
+                    data.dietType === d.value ? 'border-brand-green bg-brand-green/5' : 'border-gray-200'
+                  }`}
+                >
+                  <Icon size={20} className="text-brand-green shrink-0" />
+                  <p className="font-poppins font-semibold text-brand-black">{d.label}</p>
+                </button>
+              )
+            })}
           </div>
         </div>
       )}
@@ -246,7 +253,7 @@ export default function OnboardingWizard() {
             </Button>
           ) : (
             <Button onClick={handleSubmit} isLoading={isLoading}>
-              Générer mon programme 🎉
+              Générer mon programme
             </Button>
           )}
         </div>

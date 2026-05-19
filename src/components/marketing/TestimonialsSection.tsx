@@ -1,4 +1,5 @@
 import Card from '@/components/ui/Card'
+import { Star } from 'lucide-react'
 
 const testimonials = [
   {
@@ -40,7 +41,7 @@ export default function TestimonialsSection() {
             <Card key={t.name} hover>
               <div className="flex mb-3">
                 {Array.from({ length: t.stars }).map((_, i) => (
-                  <span key={i} className="text-yellow-400">★</span>
+                  <Star key={i} size={14} className="fill-yellow-400 text-yellow-400" />
                 ))}
               </div>
               <p className="text-gray-700 leading-relaxed italic">"{t.quote}"</p>
