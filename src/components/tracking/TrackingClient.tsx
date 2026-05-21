@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import Badge from '@/components/ui/Badge'
+import CalorieRing from '@/components/ui/CalorieRing'
 import type { EdamamFood } from '@/lib/edamam'
 import { Sunrise, Sun, Moon, Apple, ClipboardList, Check, X, type LucideIcon } from 'lucide-react'
 
@@ -16,7 +17,7 @@ const MEAL_OPTIONS: { value: MealType; label: string; icon: LucideIcon }[] = [
   { value: 'DINNER', label: 'Dîner', icon: Moon },
 ]
 
-export default function TrackingClient() {
+export default function TrackingClient({ targetCalories }: { targetCalories: number }) {
   const today = new Date().toISOString().split('T')[0]
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<EdamamFood[]>([])
@@ -97,9 +98,26 @@ export default function TrackingClient() {
   const MEAL_LABELS: Record<string, string> = { BREAKFAST: 'Petit-déjeuner', LUNCH: 'Déjeuner', DINNER: 'Dîner', SNACK: 'Collation' }
   const MEAL_ICONS: Record<string, LucideIcon> = { BREAKFAST: Sunrise, LUNCH: Sun, DINNER: Moon, SNACK: Apple }
 
+  const loggedCalories = todayLogs.reduce((s, l) => s + l.totalCalories, 0)
+  const basketCalories = basket.reduce((s, f) => s + (f.calories * f.quantity) / 100, 0)
+  const totalCalories = loggedCalories + basketCalories
+  const remaining = Math.max(0, targetCalories - totalCalories)
+
   return (
     <div className="p-6 md:p-8">
       <h1 className="font-poppins text-2xl font-bold text-brand-black mb-6">Suivi alimentaire</h1>
+
+      <Card className="mb-6 flex items-center gap-6">
+        <CalorieRing calories={totalCalories} target={targetCalories} size={90} />
+        <div>
+          <p className="font-poppins font-semibold text-brand-black">Calories du jour</p>
+          <p className="text-2xl font-bold text-brand-green font-poppins">{Math.round(totalCalories)}</p>
+          <p className="text-sm text-gray-500">/ {targetCalories} kcal · {Math.round(remaining)} restantes</p>
+          {basketCalories > 0 && (
+            <p className="mt-1 text-xs text-brand-green">+{Math.round(basketCalories)} kcal dans le panier</p>
+          )}
+        </div>
+      </Card>
 
       <div className="grid gap-6 lg:grid-cols-2">
         <div className="space-y-4">

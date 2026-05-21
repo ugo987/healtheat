@@ -1,7 +1,9 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Card from '@/components/ui/Card'
+import CalorieRing from '@/components/ui/CalorieRing'
 import ProgressBar from '@/components/ui/ProgressBar'
 import Button from '@/components/ui/Button'
 import Badge from '@/components/ui/Badge'
@@ -36,7 +38,33 @@ const GOAL_LABELS: Record<string, string> = {
   EAT_HEALTHIER: 'Mieux manger',
 }
 
-export default function DashboardClient({ userName, profile, todayLogs, macros }: Props) {
+export default function DashboardClient({ userName, profile, todayLogs: initialLogs, macros: initialMacros }: Props) {
+  const [macros, setMacros] = useState(initialMacros)
+  const [todayLogs, setTodayLogs] = useState(initialLogs)
+
+  useEffect(() => {
+    const refresh = async () => {
+      const today = new Date().toISOString().split('T')[0]
+      const res = await fetch(`/api/meals?date=${today}`)
+      if (!res.ok) return
+      const logs = await res.json()
+      setTodayLogs(logs)
+      setMacros(prev => ({
+        ...prev,
+        calories: logs.reduce((s: number, l: any) => s + l.totalCalories, 0),
+        protein: logs.reduce((s: number, l: any) => s + (l.totalProtein || 0), 0),
+        carbs: logs.reduce((s: number, l: any) => s + (l.totalCarbs || 0), 0),
+        fat: logs.reduce((s: number, l: any) => s + (l.totalFat || 0), 0),
+      }))
+    }
+    window.addEventListener('focus', refresh)
+    const interval = setInterval(refresh, 15000)
+    return () => {
+      window.removeEventListener('focus', refresh)
+      clearInterval(interval)
+    }
+  }, [])
+
   const caloriePercent = Math.min(100, Math.round((macros.calories / macros.targetCalories) * 100))
   const proteinTarget = Math.round(macros.targetCalories * 0.3 / 4)
   const carbsTarget = Math.round(macros.targetCalories * 0.4 / 4)
@@ -60,7 +88,7 @@ export default function DashboardClient({ userName, profile, todayLogs, macros }
         <Card className="lg:col-span-1 flex flex-col items-center text-center">
           <p className="font-poppins font-semibold text-brand-black">Calories du jour</p>
           <div className="mt-4">
-            <CalorieRing percent={caloriePercent} />
+            <CalorieRing calories={macros.calories} target={macros.targetCalories} />
           </div>
           <p className="font-poppins text-3xl font-bold text-brand-green">{Math.round(macros.calories)}</p>
           <p className="text-sm text-gray-500">/ {macros.targetCalories} kcal</p>
@@ -168,45 +196,5 @@ export default function DashboardClient({ userName, profile, todayLogs, macros }
         </Card>
       </div>
     </div>
-  )
-}
-
-function CalorieRing({ percent }: { percent: number }) {
-  const size = 180
-  const cx = size / 2
-  const cy = size / 2
-  const radius = 76
-  const strokeWidth = 14
-  const color = percent > 100 ? '#f97316' : '#253836'
-
-  if (percent <= 0) {
-    return (
-      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
-        <circle cx={cx} cy={cy} r={radius} fill="none" stroke="#f3f4f6" strokeWidth={strokeWidth} />
-      </svg>
-    )
-  }
-
-  if (percent >= 100) {
-    return (
-      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
-        <circle cx={cx} cy={cy} r={radius} fill="none" stroke={color} strokeWidth={strokeWidth} />
-      </svg>
-    )
-  }
-
-  // Arc SVG calculé géométriquement : part du haut (12h) dans le sens des aiguilles
-  const angle = (percent / 100) * 360
-  const rad = ((angle - 90) * Math.PI) / 180
-  const x = cx + radius * Math.cos(rad)
-  const y = cy + radius * Math.sin(rad)
-  const largeArc = angle >= 180 ? 1 : 0
-  const d = `M ${cx} ${cy - radius} A ${radius} ${radius} 0 ${largeArc} 1 ${x.toFixed(3)} ${y.toFixed(3)}`
-
-  return (
-    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
-      <circle cx={cx} cy={cy} r={radius} fill="none" stroke="#f3f4f6" strokeWidth={strokeWidth} />
-      <path d={d} fill="none" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" />
-    </svg>
   )
 }
