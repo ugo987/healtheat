@@ -121,6 +121,7 @@ function getMockFoods(query: string): EdamamFood[] {
     { foodId: 'fromage_emmental', label: 'Emmental', calories: 380, protein: 29, carbs: 0.4, fat: 29 },
     { foodId: 'mozzarella', label: 'Mozzarella', calories: 280, protein: 22, carbs: 2.2, fat: 20 },
     { foodId: 'fromage_blanc_40', label: 'Fromage blanc 40%', calories: 113, protein: 7, carbs: 4, fat: 7.5 },
+    { foodId: 'cottage_cheese', label: 'Cottage cheese', calories: 98, protein: 11, carbs: 3.4, fat: 4.3 },
     // Matières grasses & noix
     { foodId: 'avocat', label: 'Avocat', calories: 160, protein: 2, carbs: 9, fat: 15 },
     { foodId: 'amandes', label: 'Amandes', calories: 579, protein: 21, carbs: 22, fat: 50 },
