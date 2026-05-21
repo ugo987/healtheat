@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import { RadialBarChart, RadialBar, ResponsiveContainer } from 'recharts'
 import Card from '@/components/ui/Card'
 import ProgressBar from '@/components/ui/ProgressBar'
 import Button from '@/components/ui/Button'
@@ -43,8 +42,6 @@ export default function DashboardClient({ userName, profile, todayLogs, macros }
   const carbsTarget = Math.round(macros.targetCalories * 0.4 / 4)
   const fatTarget = Math.round(macros.targetCalories * 0.3 / 9)
 
-  const chartData = [{ name: 'Calories', value: caloriePercent, fill: '#253836' }]
-
   const hour = new Date().getHours()
   const greeting = hour < 12 ? 'Bonjour' : hour < 18 ? 'Bon après-midi' : 'Bonsoir'
 
@@ -62,12 +59,8 @@ export default function DashboardClient({ userName, profile, todayLogs, macros }
       <div className="grid gap-6 lg:grid-cols-3">
         <Card className="lg:col-span-1 flex flex-col items-center text-center">
           <p className="font-poppins font-semibold text-brand-black">Calories du jour</p>
-          <div className="mt-4 h-48 w-48">
-            <ResponsiveContainer width="100%" height="100%">
-              <RadialBarChart cx="50%" cy="50%" innerRadius="60%" outerRadius="90%" data={chartData} startAngle={90} endAngle={-270}>
-                <RadialBar dataKey="value" cornerRadius={10} background={{ fill: '#f3f4f6' }} />
-              </RadialBarChart>
-            </ResponsiveContainer>
+          <div className="mt-4">
+            <CalorieRing percent={caloriePercent} />
           </div>
           <p className="font-poppins text-3xl font-bold text-brand-green">{Math.round(macros.calories)}</p>
           <p className="text-sm text-gray-500">/ {macros.targetCalories} kcal</p>
@@ -175,5 +168,45 @@ export default function DashboardClient({ userName, profile, todayLogs, macros }
         </Card>
       </div>
     </div>
+  )
+}
+
+function CalorieRing({ percent }: { percent: number }) {
+  const size = 180
+  const cx = size / 2
+  const cy = size / 2
+  const radius = 76
+  const strokeWidth = 14
+  const color = percent > 100 ? '#f97316' : '#253836'
+
+  if (percent <= 0) {
+    return (
+      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
+        <circle cx={cx} cy={cy} r={radius} fill="none" stroke="#f3f4f6" strokeWidth={strokeWidth} />
+      </svg>
+    )
+  }
+
+  if (percent >= 100) {
+    return (
+      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
+        <circle cx={cx} cy={cy} r={radius} fill="none" stroke={color} strokeWidth={strokeWidth} />
+      </svg>
+    )
+  }
+
+  // Arc SVG calculé géométriquement : part du haut (12h) dans le sens des aiguilles
+  const angle = (percent / 100) * 360
+  const rad = ((angle - 90) * Math.PI) / 180
+  const x = cx + radius * Math.cos(rad)
+  const y = cy + radius * Math.sin(rad)
+  const largeArc = angle >= 180 ? 1 : 0
+  const d = `M ${cx} ${cy - radius} A ${radius} ${radius} 0 ${largeArc} 1 ${x.toFixed(3)} ${y.toFixed(3)}`
+
+  return (
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
+      <circle cx={cx} cy={cy} r={radius} fill="none" stroke="#f3f4f6" strokeWidth={strokeWidth} />
+      <path d={d} fill="none" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" />
+    </svg>
   )
 }
