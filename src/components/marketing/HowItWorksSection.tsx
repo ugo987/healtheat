@@ -5,37 +5,56 @@ const steps: { number: string; icon: LucideIcon; title: string; description: str
     number: '01',
     icon: UserCircle,
     title: 'Créez votre profil',
-    description: 'Renseignez vos objectifs, vos préférences alimentaires, vos intolérances et votre niveau d\'activité en 2 minutes.',
+    description: 'Renseignez vos objectifs, préférences et intolérances en 2 minutes.',
   },
   {
     number: '02',
     icon: Brain,
-    title: 'L\'IA génère votre plan',
-    description: 'Notre intelligence artificielle analyse vos données et crée un programme nutritionnel sur-mesure pour la semaine.',
+    title: "L'IA génère votre plan",
+    description: 'Notre IA crée un programme nutritionnel sur-mesure pour la semaine.',
   },
   {
     number: '03',
     icon: TrendingUp,
     title: 'Suivez vos progrès',
-    description: 'Enregistrez vos repas, visualisez vos macros et laissez l\'IA ajuster votre plan en fonction de votre progression.',
+    description: "Enregistrez vos repas, visualisez vos macros et ajustez en temps réel.",
   },
 ]
 
 export default function HowItWorksSection() {
   return (
-    <section className="bg-brand-white py-24">
+    <section className="bg-brand-white py-10 md:py-24">
       <div className="mx-auto max-w-7xl px-6">
         <div className="text-center">
           <p className="font-poppins text-sm font-semibold uppercase tracking-widest text-brand-green">Comment ça marche</p>
-          <h2 className="mt-3 font-poppins text-3xl font-bold text-brand-black md:text-4xl">
+          <h2 className="mt-2 font-poppins text-2xl font-bold text-brand-black md:text-4xl">
             Simple, rapide et efficace
           </h2>
-          <p className="mt-4 text-gray-600">
-            De l'inscription à votre premier plan nutritionnel, il suffit de quelques minutes.
-          </p>
         </div>
 
-        <div className="mt-16 grid gap-8 md:grid-cols-3">
+        {/* Mobile : liste verticale compacte */}
+        <div className="mt-8 flex flex-col gap-4 md:hidden">
+          {steps.map((step) => {
+            const Icon = step.icon
+            return (
+              <div key={step.number} className="flex items-start gap-4">
+                <div className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand-green">
+                  <Icon size={22} className="text-brand-white" />
+                  <span className="absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-brand-black font-poppins text-[10px] font-bold text-brand-white">
+                    {step.number}
+                  </span>
+                </div>
+                <div>
+                  <h3 className="font-poppins font-semibold text-brand-black">{step.title}</h3>
+                  <p className="mt-0.5 text-sm text-gray-500">{step.description}</p>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+
+        {/* Desktop : grille horizontale */}
+        <div className="mt-16 hidden gap-8 md:grid md:grid-cols-3">
           {steps.map((step, i) => {
             const Icon = step.icon
             return (

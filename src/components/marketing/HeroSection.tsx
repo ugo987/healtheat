@@ -13,13 +13,13 @@ export default function HeroSection() {
         <div className="absolute bottom-10 right-1/4 h-96 w-96 rounded-full bg-brand-green/8 blur-3xl" />
       </div>
 
-      <div className="mx-auto max-w-7xl px-6 py-24 text-center md:py-36">
+      <div className="mx-auto max-w-7xl px-6 py-10 text-center md:py-36">
         <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-brand-green/20 bg-brand-green/5 px-4 py-2 text-sm font-medium text-brand-green">
           <span className="h-2 w-2 rounded-full bg-brand-green animate-pulse" />
           IA nutritionnelle de nouvelle génération
         </div>
 
-        <h1 className="mx-auto max-w-4xl font-poppins text-5xl font-bold leading-tight text-brand-black md:text-7xl">
+        <h1 className="mx-auto max-w-4xl font-poppins text-4xl font-bold leading-tight text-brand-black md:text-7xl">
           Mangez mieux,{' '}
           <span className="text-brand-green">Vivez mieux</span>
         </h1>
@@ -42,7 +42,7 @@ export default function HeroSection() {
           Aucune carte bancaire requise · Résultats en 2 minutes
         </p>
 
-        <div className="mt-20 grid grid-cols-3 gap-8 md:grid-cols-3">
+        <div className="mt-10 grid grid-cols-3 gap-4 md:mt-20 md:gap-8">
           {[
             { value: '50 000+', label: 'Utilisateurs actifs' },
             { value: '4.9/5', label: 'Note moyenne' },

@@ -47,17 +47,17 @@ const plans = [
 
 export default function PricingSection() {
   return (
-    <section className="py-24" id="pricing">
+    <section className="py-10 md:py-24" id="pricing">
       <div className="mx-auto max-w-7xl px-6">
         <div className="text-center">
           <p className="font-poppins text-sm font-semibold uppercase tracking-widest text-brand-green">Tarifs</p>
           <h2 className="mt-3 font-poppins text-3xl font-bold text-brand-black md:text-4xl">
             Simple et transparent
           </h2>
-          <p className="mt-4 text-gray-600">Commencez gratuitement, évoluez quand vous voulez.</p>
+          <p className="mt-2 text-gray-600 text-sm md:text-base">Commencez gratuitement, évoluez quand vous voulez.</p>
         </div>
 
-        <div className="mt-12 grid gap-8 md:grid-cols-2 md:max-w-3xl md:mx-auto">
+        <div className="mt-6 grid gap-4 md:mt-12 md:gap-8 md:grid-cols-2 md:max-w-3xl md:mx-auto">
           {plans.map(plan => (
             <Card key={plan.name} padding="lg" className={plan.featured ? 'border-2 border-brand-green relative' : ''}>
               {plan.featured && (

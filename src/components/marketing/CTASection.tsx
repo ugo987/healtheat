@@ -2,7 +2,7 @@ import Button from '@/components/ui/Button'
 
 export default function CTASection() {
   return (
-    <section className="bg-brand-green py-20">
+    <section className="bg-brand-green py-10 md:py-20">
       <div className="mx-auto max-w-4xl px-6 text-center">
         <h2 className="font-poppins text-3xl font-bold text-brand-white md:text-5xl">
           Prêt à transformer votre alimentation ?
