@@ -74,17 +74,52 @@ export default function DashboardClient({ userName, profile, todayLogs: initialL
   const greeting = hour < 12 ? 'Bonjour' : hour < 18 ? 'Bon après-midi' : 'Bonsoir'
 
   return (
-    <div className="p-6 md:p-8">
-      <div className="mb-8">
-        <h1 className="font-poppins text-2xl font-bold text-brand-black">
+    <div className="p-4 md:p-8">
+      {/* Header */}
+      <div className="mb-4 md:mb-8">
+        <h1 className="font-poppins text-xl font-bold text-brand-black md:text-2xl">
           {greeting}, {userName.split(' ')[0]}
         </h1>
-        <p className="mt-1 text-gray-500">
+        <p className="mt-0.5 text-sm text-gray-500">
           {new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}
         </p>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-3">
+      {/* Calories + Macros — side by side on mobile */}
+      <Card className="mb-4 flex items-center gap-4 md:hidden">
+        <CalorieRing calories={macros.calories} target={macros.targetCalories} size={90} />
+        <div className="flex-1 min-w-0">
+          <p className="text-xs font-medium text-gray-500 mb-1">Calories du jour</p>
+          <p className="font-poppins text-2xl font-bold text-brand-green leading-none">{Math.round(macros.calories)}</p>
+          <p className="text-xs text-gray-400 mt-0.5">/ {macros.targetCalories} kcal</p>
+          <Badge variant={caloriePercent > 100 ? 'orange' : 'green'} className="mt-2 text-xs">
+            {macros.targetCalories - Math.round(macros.calories) > 0
+              ? `${macros.targetCalories - Math.round(macros.calories)} restantes`
+              : 'Objectif atteint'}
+          </Badge>
+        </div>
+      </Card>
+
+      {/* Macros rapides — mobile only */}
+      <div className="grid grid-cols-3 gap-2 mb-4 md:hidden">
+        {[
+          { label: 'Protéines', value: Math.round(macros.protein), target: proteinTarget, color: 'bg-brand-green' },
+          { label: 'Glucides', value: Math.round(macros.carbs), target: carbsTarget, color: 'bg-blue-400' },
+          { label: 'Lipides', value: Math.round(macros.fat), target: fatTarget, color: 'bg-orange-400' },
+        ].map(m => (
+          <div key={m.label} className="rounded-xl bg-white p-3 shadow-sm border border-gray-100">
+            <p className="text-xs text-gray-400">{m.label}</p>
+            <p className="font-poppins font-bold text-brand-black text-sm mt-0.5">{m.value}g</p>
+            <div className="mt-1.5 h-1 rounded-full bg-gray-100">
+              <div className={`h-1 rounded-full ${m.color}`} style={{ width: `${Math.min(100, (m.value / m.target) * 100)}%` }} />
+            </div>
+            <p className="text-xs text-gray-300 mt-0.5">/ {m.target}g</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Layout desktop — inchangé */}
+      <div className="hidden md:grid gap-6 lg:grid-cols-3">
         <Card className="lg:col-span-1 flex flex-col items-center text-center">
           <p className="font-poppins font-semibold text-brand-black">Calories du jour</p>
           <div className="mt-4">
@@ -124,7 +159,6 @@ export default function DashboardClient({ userName, profile, todayLogs: initialL
               <ProgressBar value={macros.fat} max={fatTarget} color="orange" />
             </div>
           </div>
-
           <div className="mt-6 rounded-xl bg-brand-white p-4">
             <div className="flex items-center justify-between">
               <div>
@@ -137,7 +171,7 @@ export default function DashboardClient({ userName, profile, todayLogs: initialL
         </Card>
       </div>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-2">
+      <div className="mt-4 md:mt-6 grid gap-4 md:gap-6 lg:grid-cols-2">
         <Card>
           <div className="flex items-center justify-between mb-4">
             <p className="font-poppins font-semibold text-brand-black">Repas d'aujourd'hui</p>

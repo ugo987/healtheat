@@ -104,22 +104,25 @@ export default function TrackingClient({ targetCalories }: { targetCalories: num
   const remaining = Math.max(0, targetCalories - totalCalories)
 
   return (
-    <div className="p-6 md:p-8">
-      <h1 className="font-poppins text-2xl font-bold text-brand-black mb-6">Suivi alimentaire</h1>
+    <div className="p-4 md:p-8">
+      <h1 className="font-poppins text-xl font-bold text-brand-black mb-4 md:text-2xl md:mb-6">Suivi alimentaire</h1>
 
-      <Card className="mb-6 flex items-center gap-6">
-        <CalorieRing calories={totalCalories} target={targetCalories} size={90} />
-        <div>
-          <p className="font-poppins font-semibold text-brand-black">Calories du jour</p>
-          <p className="text-2xl font-bold text-brand-green font-poppins">{Math.round(totalCalories)}</p>
-          <p className="text-sm text-gray-500">/ {targetCalories} kcal · {Math.round(remaining)} restantes</p>
+      {/* Jauge compacte */}
+      <Card className="mb-4 flex items-center gap-4">
+        <CalorieRing calories={totalCalories} target={targetCalories} size={72} />
+        <div className="flex-1 min-w-0">
+          <div className="flex items-baseline gap-1.5">
+            <p className="text-xl font-bold text-brand-green font-poppins">{Math.round(totalCalories)}</p>
+            <p className="text-sm text-gray-400">/ {targetCalories} kcal</p>
+          </div>
+          <p className="text-xs text-gray-500">{Math.round(remaining)} kcal restantes</p>
           {basketCalories > 0 && (
-            <p className="mt-1 text-xs text-brand-green">+{Math.round(basketCalories)} kcal dans le panier</p>
+            <p className="mt-1 text-xs font-medium text-brand-green">+{Math.round(basketCalories)} dans le panier</p>
           )}
         </div>
       </Card>
 
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid gap-4 md:gap-6 lg:grid-cols-2">
         <div className="space-y-4">
           <Card>
             <p className="font-poppins font-semibold text-brand-black mb-3">Type de repas</p>
