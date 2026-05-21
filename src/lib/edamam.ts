@@ -49,7 +49,12 @@ export async function searchFood(query: string): Promise<EdamamFood[]> {
 }
 
 function normalize(s: string): string {
-  return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+  return s
+    .toLowerCase()
+    .replace(/œ/g, 'oe')
+    .replace(/æ/g, 'ae')
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
 }
 
 function getMockFoods(query: string): EdamamFood[] {
